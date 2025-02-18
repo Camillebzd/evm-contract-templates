@@ -1,8 +1,8 @@
 import { ethers, run, network } from "hardhat";
 
-async function deployBasicERC20() {
+async function deployBasicERC721() {
   const [ owner ] = await ethers.getSigners();
-  const contract = await ethers.deployContract("BasicERC20", [owner.address]);
+  const contract = await ethers.deployContract("BasicERC721");
 
   await contract.waitForDeployment();
 
@@ -15,7 +15,7 @@ async function deployBasicERC20() {
   try {
     await run("verify:verify", {
       address: contract.target,
-      constructorArguments: [owner.address], // Match deployed constructor params
+      constructorArguments: [], // Match deployed constructor params
     });
     console.log("Contract verified on Blockscout!");
   } catch (error) {
@@ -23,7 +23,7 @@ async function deployBasicERC20() {
   }
 }
 
-deployBasicERC20().catch((error) => {
+deployBasicERC721().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
